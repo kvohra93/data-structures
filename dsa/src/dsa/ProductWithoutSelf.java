@@ -5,6 +5,7 @@
  */
 package dsa;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,22 +17,29 @@ public class ProductWithoutSelf {
 
     public static void main(String[] args) {
         ProductWithoutSelf o = new ProductWithoutSelf();
-        int[] nums = {1, 3, 5, 2};           // 1,1,3,15 
-        System.out.println(o.productExceptSelf(nums));        //30,10 ,2,1
-        // 30,10, 6,15
+        int[] nums = {1, 3, 5, 2};          
+        System.out.println(Arrays.toString(o.productExceptSelf(nums)));     
+                                                            //1,1,3,15
+                                                            //30,10 ,2,1
+                                                            //30,10, 6,15
     }
 
     public int[] productExceptSelf(int[] nums) {
-        int[] prod = new int[nums.length];
-        prod[1] = 1;
+        int[] left = new int [nums.length];
+        int[] right = new int[nums.length];
+        left[0] = 1;
+        right[right.length-1] = 1;
         for (int i = 1; i < nums.length; i++) {
-            prod[i] = nums[i - 1] * prod[i - 1];
+            left[i] = nums[i-1] * left[i-1];
         }
-        for (int j = nums.length - 2; j >= 0; j++) {
-            prod[j] *= nums[j - 1];
-
+        for (int i = right.length-2; i >=0; i--) {
+            right[i]=right[i+1]*nums[i+1];
         }
-        return prod;
+        int res[] = new int[nums.length];
+        for (int i = 0; i< nums.length; i++){
+            res[i] =left[i] * right[i];
+        }
+        return res;
 
     }
 
